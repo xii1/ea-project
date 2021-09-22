@@ -1,0 +1,43 @@
+version: "3.9"
+services:
+  mssql-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    ports:
+      - "1433:1433"
+    networks:
+      - ea
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=admin@123
+
+  mssql-seed:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    networks:
+      - ea
+    depends_on:
+      - mssql-db
+    command: bash -c "/opt/mssql-tools/bin/sqlcmd -S mssql-db -U SA -P 'admin@123' -Q 'CREATE DATABASE AppointmentSystem'"
+
+  web-service:
+    image: ea-project:$WEB_SERVICE_TAG
+    ports:
+      - "8080"
+    restart: always
+    networks:
+      - ea
+    depends_on:
+      - mssql-db
+
+  load-balancer:
+    image: nginx:latest
+    volumes:
+      - ./deploy/nginx/conf/nginx.conf:/etc/nginx/nginx.conf:ro
+    ports:
+      - "8080:80"
+    networks:
+      - ea
+    depends_on:
+      - web-service
+
+networks:
+  ea:
