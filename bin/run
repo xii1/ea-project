@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
+java -jar $DIR/../target/appointment-system-0.0.1-SNAPSHOT.jar $1                                                                                                                                                                                                  1.0.0.jar $1

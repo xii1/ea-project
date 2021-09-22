@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+if [ $# -eq 0 ]
+  then
+    echo "Tag version is required!"
+    exit
+fi
+
+WS_SCALE=1
+if [ $# -gt 1 ]
+  then
+    WS_SCALE=$2
+fi
+
+WEB_SERVICE_TAG=$1 docker-compose up -d --scale web-service=$WS_SCALE

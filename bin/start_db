@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+docker run --name mssql-server -e "ACCEPT_EULA=Y" -e "SA_PASSWORD=admin@123" -p 1433:1433 -d mcr.microsoft.com/mssql/server:2019-latest
+
+sleep 5
+
+docker exec -it mssql-server /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P "admin@123" -Q 'CREATE DATABASE AppointmentSystem'
