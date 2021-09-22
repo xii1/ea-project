@@ -1,0 +1,22 @@
+reservation:
+  notFound: The resource not found
+  alreadyHasPendingReservation: The user already has a pending reservation with this appointment
+  alreadyReservedAppointment: The user is already submitted an reservation for this appointment
+  sendIdAndObjectIdAreNotEqual: The send id and object id are not equal
+  ReservationTypeProvidedNotSupported: The reservation type provided is not supported
+  reminder:
+    #reminders in hours
+    firstReminder: 48
+    secondReminder: 1
+    batchSize: 50
+provider:
+  alreadyExist: The provider already exists!
+  notFound: The provider not found
+  userExist: User already exist in provider
+  userNotFound: User does not exist in provider
+category:
+  notFound: The requested record not found
+  nameAlreadyExists: The name already exists!
+  idMismatch: Id in request and body shoule be same!
+user:
+  notFound: The user not found

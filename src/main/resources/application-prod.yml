@@ -1,0 +1,47 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: api-server
+  datasource:
+    url: jdbc:sqlserver://cs544.database.windows.net:1433;databaseName=AppointmentSystem
+    username: cs544
+    password: admin@123
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    hikari:
+      maximumPoolSize: 10
+  aop:
+    auto: false
+  jpa:
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl
+      ddl-auto: validate
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServer2012Dialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: localhost.nepal@gmail.com
+    password: 123qwe!@#QWE
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+      protocol: smtp
+      test-connection: false
+
+jwt:
+  secret-base64: and0c2VjcmV0
+  issuer: localhost
+  expiration-in-hours: 24
+
+logging:
+  file:
+    name: /Coding/Logging/${spring.application.name}/log
