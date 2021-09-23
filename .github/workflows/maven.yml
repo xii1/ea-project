@@ -1,0 +1,45 @@
+name: Java CI with Maven
+
+on:
+  push:
+    branches: [ '**' ]
+    tags: [ '*' ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Cache Maven packages
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build
+        run: mvn compile
+      - name: Package & Verify
+        run: mvn verify
+      - name: Parse tag name
+        id: meta
+        if: startsWith(github.ref, 'refs/tags/')
+        run: echo ::set-output name=tag::${GITHUB_REF/refs\/tags\//}
+      - name: Build the Docker image
+        if: startsWith(github.ref, 'refs/tags/')
+        run: docker build -t ghcr.io/xii1/ea-project:${{ steps.meta.outputs.tag }} .
+      - name: Login github registry
+        if: startsWith(github.ref, 'refs/tags/')
+        run: echo ${{ secrets.GITHUB_TOKEN }} | docker login https://ghcr.io -u ${{ github.repository_owner }} --password-stdin
+      - name: Push the Docker image
+        if: startsWith(github.ref, 'refs/tags/')
+        run: docker push ghcr.io/xii1/ea-project:${{ steps.meta.outputs.tag }}
+

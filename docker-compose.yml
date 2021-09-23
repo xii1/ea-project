@@ -19,7 +19,7 @@ services:
     command: bash -c "/opt/mssql-tools/bin/sqlcmd -S mssql-db -U SA -P 'admin@123' -Q 'CREATE DATABASE AppointmentSystem'"
 
   web-service:
-    image: ea-project:$WEB_SERVICE_TAG
+    image: ghcr.io/xii1/ea-project:$WEB_SERVICE_TAG
     ports:
       - "8080"
     restart: always
